@@ -14,9 +14,7 @@ for (( j=0 ; j<5 ; j+=1 )); do
     jpg_file=${TCP_VERSION_ARR[$j]}"/"$i".jpg";
     ./gen_tcl.sh $i $j;
     ns=$(ns $tcl_file);
-    if [ -n $ns ];then
-        echo "not found ns";
-    else
+    if [ ! -n $ns ];then
         awk -f data_rate.awk $tr_file >> $dat_file;
         gnuplot -e "set term jpeg;set output '$jpg_file';plot '$dat_file' with line"
         echo "Remove tcl tr dat files in ${TCP_VERSION_ARR[$j]}";
