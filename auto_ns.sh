@@ -10,7 +10,7 @@ for (( j=0 ; j<5 ; j+=1 )); do
 
     mkdir ${TCP_VERSION_ARR[$j]};
 
-    for (( i=1 ; i<200 ; i+=1 ));do
+    for (( i=1 ; i<50 ; i+=1 ));do
 
     tcl_file=${TCP_VERSION_ARR[$j]}"/"$i".tcl";
 
