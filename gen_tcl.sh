@@ -23,7 +23,6 @@ fi
 tcl_file=${TCP_VERSION_ARR[$(($2+5))]}"/"$NUM_NODE".tcl";
 nam_file=${TCP_VERSION_ARR[$(($2+5))]}"/"$NUM_NODE".nam";
 tr_file=${TCP_VERSION_ARR[$(($2+5))]}"/"$NUM_NODE".tr";
-echo $tcl_file;
 echo '
 #===================================
 #     Simulation parameters setup
