@@ -5,23 +5,49 @@ TCP_VERSION_ARR[2]='Reno';
 TCP_VERSION_ARR[3]='Newreno';
 TCP_VERSION_ARR[4]='Vegas';
 for (( j=0 ; j<5 ; j+=1 )); do
+
     echo "Create [${TCP_VERSION_ARR[$j]}]";
+
     mkdir ${TCP_VERSION_ARR[$j]};
+
     for (( i=1 ; i<200 ; i+=1 ));do
+
     tcl_file=${TCP_VERSION_ARR[$j]}"/"$i".tcl";
+
     tr_file=${TCP_VERSION_ARR[$j]}"/"$i".tr";
+
     dat_file=${TCP_VERSION_ARR[$j]}"/"$i"_result.dat";
+
     jpg_file=${TCP_VERSION_ARR[$j]}"/"$i".jpg";
+
     ./gen_tcl.sh $i $j;
-    ns=$(whereis ns);
-    if [ ! -n $ns ];then
+
+    ns=$(which ns);
+
+    if [ $ns ];then
+
         ns $tcl_file;
+
         awk -f data_rate.awk $tr_file >> $dat_file;
-        gnuplot -e "set term jpeg;set output '$jpg_file';plot '$dat_file' with line";
+
+        gp=$(which gnuplot)
+
+        if [ $gp ];then
+
+			gnuplot -e "set term jpeg;set output '$jpg_file';plot '$dat_file' with line";
+
+			rm $tcl_file;
+
+			rm $dat_file;
+
+        fi
+
         echo "Remove tcl tr dat files in ${TCP_VERSION_ARR[$j]}";
-        rm $tcl_file;
+
         rm $tr_file;
-        rm $dat_file;
+
     fi
+
     done
+
 done
