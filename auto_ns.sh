@@ -16,6 +16,8 @@ for (( j=0 ; j<5 ; j+=1 )); do
 
     pkg_file=${TCP_VERSION_ARR[$j]}"/total_pkg.dat";
 
+    pkg_jpg_file=${TCP_VERSION_ARR[$j]}"/total_pkg.jpg";
+
     if [ -s $pkg_file ]; then
 
         rm $pkg_file;
@@ -23,49 +25,56 @@ for (( j=0 ; j<5 ; j+=1 )); do
 
     for (( i=1 ; i<50 ; i+=1 ));do
 
-    tcl_file=${TCP_VERSION_ARR[$j]}"/"$i".tcl";
+        tcl_file=${TCP_VERSION_ARR[$j]}"/"$i".tcl";
 
-    tr_file=${TCP_VERSION_ARR[$j]}"/"$i".tr";
+        tr_file=${TCP_VERSION_ARR[$j]}"/"$i".tr";
 
-    dat_file=${TCP_VERSION_ARR[$j]}"/"$i"_result.dat";
+        dat_file=${TCP_VERSION_ARR[$j]}"/"$i"_result.dat";
 
-    jpg_file=${TCP_VERSION_ARR[$j]}"/"$i".jpg";
+        jpg_file=${TCP_VERSION_ARR[$j]}"/"$i".jpg";
 
+        ./gen_tcl.sh $i $j;
 
-    ./gen_tcl.sh $i $j;
+        ns=$(which ns);
 
-    ns=$(which ns);
+        if [ $ns ];then
 
-    if [ $ns ];then
+            ns $tcl_file;
 
-        ns $tcl_file;
+            awk -f data_rate.awk $tr_file >> $dat_file;
 
-        awk -f data_rate.awk $tr_file >> $dat_file;
+            total_byte=$(awk -f total_pkg.awk $dat_file >> $pkg_file);
+            
+            echo $i $total_byte >> $pkg_file;
 
-        total_byte=$(awk -f total_pkg.awk $dat_file >> $pkg_file);
-        
-        echo $i $total_byte >> $pkg_file;
+            gp=$(which gnuplot)
 
-        gp=$(which gnuplot)
+            if [ $gp ];then
 
-        if [ $gp ];then
+                echo "plot $dat_file into $jpg_file";
 
-            echo "plot $dat_file into $jpg_file";
+                gnuplot -e "set term jpeg;set output '$jpg_file';plot '$dat_file' with line";
 
-			gnuplot -e "set term jpeg;set output '$jpg_file';plot '$dat_file' with line";
+                rm $tcl_file;
 
-			rm $tcl_file;
+                rm $dat_file;
 
-			rm $dat_file;
+            fi
+
+            echo "Remove tcl tr dat files in ${TCP_VERSION_ARR[$j]}";
+
+            rm $tr_file;
 
         fi
 
-        echo "Remove tcl tr dat files in ${TCP_VERSION_ARR[$j]}";
+    done
 
-        rm $tr_file;
+    if [ $ns ] && [ $gp ];then
+        
+        gnuplot -e "set term jpeg; set output '$pkg_jpg_file'; plot '$pkg_file' with line"
+
+        rm $pkg_file;
 
     fi
-
-    done
 
 done
