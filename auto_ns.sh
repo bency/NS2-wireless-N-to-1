@@ -73,7 +73,7 @@ for (( j=0 ; j<5 ; j+=1 )); do
         
         gnuplot -e "set term jpeg; set output '$pkg_jpg_file'; plot '$pkg_file' with line"
 
-        rm $pkg_file;
+        #rm $pkg_file;
 
     fi
 
