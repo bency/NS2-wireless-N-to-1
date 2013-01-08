@@ -27,6 +27,9 @@ echo '
 #===================================
 #     Simulation parameters setup
 #===================================
+Phy/WirelessPhy set bandwidth_ 11Mb        ;#Data Rate
+Mac/802_11 set dataRate_ 11Mb              ;#Rate for Data Frames
+Mac/802_11 set basicRate_ 1Mb              ;#Rate for Control Frames
 set val(chan)   Channel/WirelessChannel    ;# channel type
 set val(prop)   Propagation/TwoRayGround   ;# radio-propagation model
 set val(netif)  Phy/WirelessPhy            ;# network interface type
