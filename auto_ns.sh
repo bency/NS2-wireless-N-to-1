@@ -43,7 +43,7 @@ for (( j=0 ; j<5 ; j+=1 )); do
 
             awk -f data_rate.awk $tr_file >> $dat_file;
 
-            total_byte=$(awk -f total_pkg.awk $dat_file >> $pkg_file);
+            total_byte=$(awk -f total_pkg.awk $dat_file);
             
             echo $i $total_byte >> $pkg_file;
 
