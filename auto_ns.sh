@@ -14,6 +14,13 @@ for (( j=0 ; j<5 ; j+=1 )); do
 
     fi
 
+    pkg_file=${TCP_VERSION_ARR[$j]}"/total_pkg.dat";
+
+    if [ -s $pkg_file ]; then
+
+        rm $pkg_file;
+    fi
+
     for (( i=1 ; i<50 ; i+=1 ));do
 
     tcl_file=${TCP_VERSION_ARR[$j]}"/"$i".tcl";
@@ -23,6 +30,7 @@ for (( j=0 ; j<5 ; j+=1 )); do
     dat_file=${TCP_VERSION_ARR[$j]}"/"$i"_result.dat";
 
     jpg_file=${TCP_VERSION_ARR[$j]}"/"$i".jpg";
+
 
     ./gen_tcl.sh $i $j;
 
@@ -34,9 +42,15 @@ for (( j=0 ; j<5 ; j+=1 )); do
 
         awk -f data_rate.awk $tr_file >> $dat_file;
 
+        total_byte=$(awk -f total_pkg.awk $dat_file >> $pkg_file);
+        
+        echo $i $total_byte >> $pkg_file;
+
         gp=$(which gnuplot)
 
         if [ $gp ];then
+
+            echo "plot $dat_file into $jpg_file";
 
 			gnuplot -e "set term jpeg;set output '$jpg_file';plot '$dat_file' with line";
 
