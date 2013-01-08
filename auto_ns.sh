@@ -8,7 +8,11 @@ for (( j=0 ; j<5 ; j+=1 )); do
 
     echo "Create [${TCP_VERSION_ARR[$j]}]";
 
-    mkdir ${TCP_VERSION_ARR[$j]};
+    if [ ! -d ${TCP_VERSION_ARR[$j]} ]; then
+
+        mkdir ${TCP_VERSION_ARR[$j]};
+
+    fi
 
     for (( i=1 ; i<50 ; i+=1 ));do
 

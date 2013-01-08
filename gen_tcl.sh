@@ -65,11 +65,6 @@ set topo       [new Topography]
 $topo load_flatgrid $val(x) $val(y)
 create-god $val(nn)
 
-#Setup topography object
-set topo       [new Topography]
-$topo load_flatgrid $val(x) $val(y)
-create-god $val(nn)
-
 #Open the NS trace file
 ' >> $tcl_file;
 
