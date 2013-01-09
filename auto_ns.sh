@@ -57,13 +57,13 @@ for (( j=0 ; j<5 ; j+=1 )); do
 
                 rm $tcl_file;
 
-                rm $dat_file;
+#                rm $dat_file;
 
             fi
 
             echo "Remove tcl tr dat files in ${TCP_VERSION_ARR[$j]}";
 
-            rm $tr_file;
+#            rm $tr_file;
 
         fi
 
