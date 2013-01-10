@@ -45,21 +45,21 @@ for (( j=0 ; j<5 ; j+=1 )); do
 
             total_byte=$(awk -f total_pkg.awk $dat_file);
             
-            echo $i $total_byte >> $pkg_file;
+            echo $total_byte >> $pkg_file;
 
             gp=$(which gnuplot)
 
-            if [ $gp ];then
+#            if [ $gp ];then
 
-                echo "plot $dat_file into $jpg_file";
+#                echo "plot $dat_file into $jpg_file";
 
-                gnuplot -e "set term jpeg;set output '$jpg_file';plot '$dat_file' with line";
+#                gnuplot -e "set term jpeg;set output '$jpg_file';plot '$dat_file' with line";
 
-                rm $tcl_file;
+#                rm $tcl_file;
 
 #                rm $dat_file;
 
-            fi
+#            fi
 
             echo "Remove tcl tr dat files in ${TCP_VERSION_ARR[$j]}";
 
