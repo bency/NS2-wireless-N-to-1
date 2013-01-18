@@ -1,12 +1,23 @@
 #!/bin/bash
+clear
+
+# set tcp version
+
 TCP_VERSION_ARR[0]='TCP';
 TCP_VERSION_ARR[1]='Tahoe';
 TCP_VERSION_ARR[2]='Reno';
 TCP_VERSION_ARR[3]='Newreno';
 TCP_VERSION_ARR[4]='Vegas';
+
+# set num_node itv_node
+
+num_node=300;
+
+itv_node=10;
+
 for (( j=0 ; j<5 ; j+=1 )); do
 
-    echo "Create [${TCP_VERSION_ARR[$j]}]";
+    echo -e "\e[1;31mCreate\e[0m [${TCP_VERSION_ARR[$j]}]";
 
     if [ ! -d ${TCP_VERSION_ARR[$j]} ]; then
 
@@ -23,7 +34,7 @@ for (( j=0 ; j<5 ; j+=1 )); do
         rm $pkg_file;
     fi
 
-    for (( i=10 ; i<=300 ; i+=10 ));do
+    for (( i=$itv_node ; i<=$num_node ; i+=$itv_node ));do
 
         tcl_file=${TCP_VERSION_ARR[$j]}"/"$i".tcl";
 
@@ -38,14 +49,32 @@ for (( j=0 ; j<5 ; j+=1 )); do
         ns=$(which ns);
 
         if [ $ns ];then
+            
+            echo "";
+
+            echo -e "\033[31;1mStart simulation procudure\033[37;0m: \033[34;1mns \033[31;1m$tcl_file\033[0m;";
+
+            echo -e "\033[33;1m";
 
             ns $tcl_file;
+            
+            echo -e "\033[0m";
+
+            echo "Create $dat_file";
+
+            echo "";
 
             awk -f data_rate.awk $tr_file > $dat_file;
 
             total_byte=$(awk -f total_pkg.awk $dat_file);
             
             echo $total_byte >> $pkg_file;
+            
+            echo "";
+
+            echo "Create $pkg_file";
+
+            echo "";
 
             gp=$(which gnuplot)
 
