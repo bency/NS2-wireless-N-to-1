@@ -23,7 +23,7 @@ for (( j=0 ; j<5 ; j+=1 )); do
         rm $pkg_file;
     fi
 
-    for (( i=1 ; i<50 ; i+=1 ));do
+    for (( i=10 ; i<=300 ; i+=10 ));do
 
         tcl_file=${TCP_VERSION_ARR[$j]}"/"$i".tcl";
 
@@ -41,7 +41,7 @@ for (( j=0 ; j<5 ; j+=1 )); do
 
             ns $tcl_file;
 
-            awk -f data_rate.awk $tr_file >> $dat_file;
+            awk -f data_rate.awk $tr_file > $dat_file;
 
             total_byte=$(awk -f total_pkg.awk $dat_file);
             

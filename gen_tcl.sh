@@ -46,7 +46,7 @@ set val(nn)     $((NUM_NODE+2))                         ;# number of mobilenodes
 " >> $tcl_file;
 
 echo '
-set val(rp)     AODV                       ;# routing protocol
+set val(rp)     AODV                     ;# routing protocol
 set val(x)      615                      ;# X dimension of topography
 set val(y)      668                      ;# Y dimension of topography
 ' >> $tcl_file;
@@ -122,7 +122,7 @@ $ns initial_node_pos $n1 20
 for (( i=2; i<$((NUM_NODE+2)) ; i+=1 )); do
    echo "
 set n$i [\$ns node]
-\$n$i set X_ 520
+\$n$i set X_ $((520+i))
 \$n$i set Y_ 250
 \$n$i set Z_ 0.0
 \$ns initial_node_pos \$n$i 20
